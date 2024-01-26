@@ -39,6 +39,19 @@
         ],
 
     ];
+    $filtered_hotel = $hotels;
+    if(isset($_GET['parking']) && $_GET['parking'] != ''){
+        $tempHotel = [];
+        $parking = $_GET['parking'];
+
+        foreach($filtered_hotel as $hotel){
+            if($hotel['parking'] == $parking){
+                $tempHotel[] = $hotel;
+            }
+        }
+
+        $filtered_hotel = $tempHotel;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +65,25 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-<?php include 'header.php'; ?>
+<?php include __DIR__.'/header.php'; ?>
+
+<div class="container">
+    <form class="row g-3  align-items-end ">
+        <div class="col-5">
+            <label for="parking" class="form-label">Parcheggio</label>
+            <select class="form-select" id="parking" name="parking">
+                <option value="">Tutti</option>
+                <option value="1">Si</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-primary" type="submit">Invia</button>
+        </div>
+    </form>
+   
+</div>
+
 <table class="table">
   <thead>
     <tr>
@@ -64,7 +95,7 @@
     </tr>
   </thead>
   <tbody>
-  <?php foreach($hotels as $hotel ){ ?>
+    <?php foreach($filtered_hotel as $hotel ){ ?>
     <tr>
       <td><?php echo $hotel['name'] ?></td>
       <td><?php echo $hotel['description'] ?></td>
@@ -75,6 +106,6 @@
     <?php } ?>
   </tbody>
 </table>
-<?php include 'footer.php'; ?>
+<?php include __DIR__.'/footer.php'; ?>
 </body>
 </html>
